@@ -57,6 +57,9 @@ const footer_style = { background: '#FFFFFF', height: '80px', alignItems: 'cente
 
 function FormCom ({patient}) {
 
+
+  console.log(patient);
+  
   // const patient = salesDetails;
   // const base_url = 'http://localhost/marketing/ajax';
   const base_url = 'https://marketing.ps-baby.com/ajax'; 
@@ -319,6 +322,10 @@ function FormCom ({patient}) {
       setSelectedDate(value.format('MM-DD-YYYY'));
       if (currentField) {
         form.setFieldsValue({ [currentField]: value.format('MM-DD-YYYY') });
+      }
+      // If current field is `thaw_date`, also update `egg_frozen_date`
+      if (currentField === 'thaw_date') {
+        form.setFieldsValue({ egg_frozen_date: value.format('MM-DD-YYYY') });
       }
       setOpenCalender(false);
     }
@@ -1021,6 +1028,7 @@ function FormCom ({patient}) {
         cryo_total: patientData.total_emb_cryo || '',
         pgs_total_bx: patientData.total_bx || '',
         comment: patientData.notes || '',
+        thaw_date: patientData.thaw_date || '',
         fs_ml: semen_analysis_data?.fresh_semen?.volume || '',
         fs_ml_10: semen_analysis_data?.fresh_semen?.count || '',
         fs_percentage: semen_analysis_data?.fresh_semen?.motility || '',
@@ -1032,15 +1040,18 @@ function FormCom ({patient}) {
         f_ml: semen_analysis_data?.final?.volume || '',
         f_ml_10: semen_analysis_data?.final?.count || '',
         f_percentage: semen_analysis_data?.final?.motility || '',
-        f_progressive: semen_analysis_data?.final?.progressive || ''
+        f_progressive: semen_analysis_data?.final?.progressive || '',
+        egg_frozen_date: patientData.thaw_date || '',
       });
 
-      console.log('Current form values:', form.getFieldsValue());
+      // console.log('Current form values:', form.getFieldsValue());
       
     } else {
       // console.log('Patient is not an array or is empty');
     }
   }, [patient, form]);
+
+ 
   
   
   const safeJsonParse = (str) => {
@@ -1192,6 +1203,7 @@ function FormCom ({patient}) {
           storage_clinic: '',
           note: values.comment,
           semen_analysis: semenAnalysisDataString,
+          thaw_date: values.thaw_date,
         },
       });
       // console.log('Egg thaw details sent successfully:', response.data , );
