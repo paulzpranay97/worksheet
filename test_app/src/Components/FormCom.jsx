@@ -29,11 +29,7 @@ import axios from "axios";
 // import type { CalendarProps } from "antd";
 // import type { Dayjs } from "dayjs";
 
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-// import { textAlign } from "html2canvas/dist/types/css/property-descriptors/text-align";
-// import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
-// import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
+
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -44,9 +40,37 @@ const innner_con = {
   background: "#ffff",
   boxShadow: "0px 4px 8px 0px #0000000F, 0px 0px 4px 0px #0000000A",
   borderRadius: "10px 10px 10px 10px",
-  padding: "10px 15px 20px 10px",
-  height: "175px",
+  height: "170px",
 };
+
+const innner_con_new_2 = {
+  background: "#ffff",
+  boxShadow: "0px 4px 8px 0px #0000000F, 0px 0px 4px 0px #0000000A",
+  borderRadius: "10px 10px 10px 10px",
+  height: "230px",
+};
+
+const innner_con_new_3 = {
+  background: "#ffff",
+  boxShadow: "0px 4px 8px 0px #0000000F, 0px 0px 4px 0px #0000000A",
+  borderRadius: "10px 10px 10px 10px",
+  height: "155px",
+};
+
+const headingbackgroundColor ={
+  background: 'rgb(138 98 165 / 14%)',
+  width: '100%',
+  padding:'5px 10px',
+  display: 'flex',
+  justifyContent: 'center', 
+  alignItems: 'center',
+  borderRadius: '10px 10px 0px 0px'
+
+}
+
+const conBodystyle ={
+  padding:'0px 10px',
+}
 
 const innner_con_2 = {
   background: "#FCF8FF",
@@ -70,7 +94,7 @@ const innner_con_3_row_2 = {
   boxShadow: "0px 4px 8px 0px #0000000F, 0px 0px 4px 0px #0000000A",
   borderRadius: "10px 10px 10px 10px",
   padding: "10px 10px 20px 10px",
-  height: "155px",
+  height: "200px",
   margin: "0",
 };
 
@@ -138,7 +162,9 @@ const title_s_style_navbar = {
 const title_s_style_p = {
   width: "100%",
   color: "#8A62A5",
-  margin: "-8px 0px 0px 0px",
+  margin: "0px 0px 0px 0px",
+
+  
 };
 
 const title_s_style_center = {
@@ -272,8 +298,9 @@ const footer_style = {
 };
 
 // function FormCom({ patient, fetchPatientData }) {
-function FormCom({ patient }) {
-
+function FormCom({ patient: patientFromProps }) {
+  
+  const [patient, setPatient] = useState([]);
   const base_url = "https://marketing.ps-baby.com/ajax";
 
   
@@ -451,6 +478,14 @@ function FormCom({ patient }) {
   const timeFormat = "HH:mm";
   const [showAll, setShowAll] = useState(false);
 
+
+  // for bx section show hide 
+  const [selectedBxOption, setSelectedBxOption] = useState(null);
+
+  const handleBxChange = (e) => {
+    setSelectedBxOption(e.target.value); 
+  };
+
   const fieldOptions = {
     cycle_type: [
       { value: 'Egg Thawing', label: 'Egg Thawing', title: 'Cycle Type' },
@@ -473,20 +508,20 @@ function FormCom({ patient }) {
       { value: 'Donor', label: 'Donor', title: 'Oocyte Source' },
       { value: 'Patient', label: 'Patient', title: 'Oocyte Source' },
     ],
-    sorology: [
-      { value: 'NA', label: 'NA', title: 'Sorology' },
-      { value: 'Biohazard', label: 'Biohazard', title: 'Sorology' },
+    serology: [
+      { value: 'NA', label: 'NA', title: 'Serology' },
+      { value: 'Biohazard', label: 'Biohazard', title: 'Serology' },
     ],
-    sorology_positive: [
-      { value: 'HBsAg', label: 'HBsAg', title: 'Sorology Positive' },
-      { value: 'HBcAb', label: 'HBcAb', title: 'Sorology Positive' },
-      { value: 'Anti HCV', label: 'Anti HCV', title: 'Sorology Positive' },
-      { value: 'CMV Ab', label: 'CMV Ab', title: 'Sorology Positive' },
-      { value: 'T.Pallidum', label: 'T.Pallidum', title: 'Sorology Positive' },
-      { value: 'Chlamydia', label: 'Chlamydia', title: 'Sorology Positive' },
-      { value: 'Gonorrhea', label: 'Gonorrhea', title: 'Sorology Positive' },
-      { value: 'HIV', label: 'HIV', title: 'Sorology Positive' },
-      { value: 'Other', label: 'Other', title: 'Sorology Positive' },
+    serology_positive: [
+      { value: 'HBsAg', label: 'HBsAg', title: 'Serology Positive' },
+      { value: 'HBcAb', label: 'HBcAb', title: 'Serology Positive' },
+      { value: 'Anti HCV', label: 'Anti HCV', title: 'Serology Positive' },
+      { value: 'CMV Ab', label: 'CMV Ab', title: 'Serology Positive' },
+      { value: 'T.Pallidum', label: 'T.Pallidum', title: 'Serology Positive' },
+      { value: 'Chlamydia', label: 'Chlamydia', title: 'Serology Positive' },
+      { value: 'Gonorrhea', label: 'Gonorrhea', title: 'Serology Positive' },
+      { value: 'HIV', label: 'HIV', title: 'Serology Positive' },
+      { value: 'Other', label: 'Other', title: 'Serology Positive' },
     ],
     sperm_source: [
       { value: 'Donor', label: 'Donor', title: 'Sperm Source' },
@@ -495,6 +530,43 @@ function FormCom({ patient }) {
     sperm_type: [
       { value: 'Fresh', label: 'Fresh', title: 'Sperm Type' },
       { value: 'Frozen', label: 'Frozen', title: 'Sperm Type' },
+    ],
+    sperm_serology: [
+      { value: 'NA', label: 'NA', title: 'Serology' },
+      { value: 'Biohazard', label: 'Biohazard', title: 'Serology' },
+    ],
+    sperm_serology_positive: [
+      { value: 'HBsAg', label: 'HBsAg', title: 'Serology Positive' },
+      { value: 'HBcAb', label: 'HBcAb', title: 'Serology Positive' },
+      { value: 'Anti HCV', label: 'Anti HCV', title: 'Serology Positive' },
+      { value: 'CMV Ab', label: 'CMV Ab', title: 'Serology Positive' },
+      { value: 'T.Pallidum', label: 'T.Pallidum', title: 'Serology Positive' },
+      { value: 'Chlamydia', label: 'Chlamydia', title: 'Serology Positive' },
+      { value: 'Gonorrhea', label: 'Gonorrhea', title: 'Serology Positive' },
+      { value: 'HIV', label: 'HIV', title: 'Serology Positive' },
+      { value: 'Other', label: 'Other', title: 'Serology Positive' },
+    ],
+    pgd_lab: [
+      { value: 'Progenesis', label: 'Progenesis', title: 'PGS Lab' },
+      { value: 'Cooper Surgical', label: 'Cooper Surgical', title: 'PGS Lab' },
+      { value: 'Natera', label: 'Natera', title: 'PGS Lab' },
+      { value: 'Igenomix', label: 'Igenomix', title: 'PGS Lab' },
+      { value: 'Other', label: 'Other', title: 'PGS Lab' },
+    ],
+    pgs_test: [
+      { value: 'PGT-A', label: 'PGT-A', title: 'PGS Test' },
+      { value: 'PGT-M', label: 'PGT-M', title: 'PGS Test' },
+      { value: 'PGT-SR', label: 'PGT-SR', title: 'PGS Test' },
+    ],
+    sperm_prep: [
+      { value: 'Wash', label: 'Wash', title: 'Sperm Prep' },
+      { value: 'Gradient', label: 'Gradient', title: 'Sperm Prep' },
+      { value: 'Swim up', label: 'Swim up', title: 'Sperm Prep' },
+      { value: 'TESE prep', label: 'TESE prep', title: 'Sperm Prep' },
+    ],
+    cell_stage: [
+      { value: '2PN', label: '2PN', title: 'Cell Stage' },
+      { value: 'D3', label: 'D3', title: 'Cell Stage' },
     ],
     
   };
@@ -525,10 +597,315 @@ function FormCom({ patient }) {
   //   fetchPrimaryDoctors();
   // }, []);
 
+  useEffect(() => {
+    if (patientFromProps && Array.isArray(patientFromProps)) {
+      setPatient(patientFromProps); 
+    }
+  }, [patientFromProps]);
 
+  useEffect(() => {
+    if ( Array.isArray(patient) && patient.length > 0 && typeof patient[0] === "object" ) {
+      const patientData = patient[0];
+      const table_existing_data = safeJsonParse(patientData.daily_report);
+      const semen_analysis_data = safeJsonParse(patientData.semen_analysis);
 
+      if (Object.keys(table_existing_data).length > 0) {
+        const updatedData = transformDataForTable(table_existing_data);
+        setData(updatedData);
+      }
+
+      const age = calculateAge(patientData.dob);
+      let egg_frozen_by_field_value = '';
+      const donor_id_exist_UG_OVO = patientData.donor_id;
+
+      if (donor_id_exist_UG_OVO.includes("UG")) {
+        egg_frozen_by_field_value = `${patientData.retrieval_center}-UG`;
+      } 
+      if (donor_id_exist_UG_OVO.includes("OVO")) {
+        egg_frozen_by_field_value = `${patientData.retrieval_center}-OVO`;
+      } 
+      if (!donor_id_exist_UG_OVO.includes("UG") && !donor_id_exist_UG_OVO.includes("OVO")) {
+        egg_frozen_by_field_value = patientData.retrieval_center;
+      }
+
+      let emb_val_from_table = (table_existing_data.d1 && table_existing_data.d1[0]) || [];
+      let date_d1_val_from_table = (table_existing_data.d1 && table_existing_data.d1[1]) || [];
+      let time_d1_val_from_table = (table_existing_data.d1 && table_existing_data.d1[2]) || [];
+      let date_d7_val_from_table = (table_existing_data.d7 && table_existing_data.d7[1]) || [];
+      let time_d7_val_from_table = (table_existing_data.d7 && table_existing_data.d7[2]) || [];
+      
+      let day_5_bx_array = table_existing_data["d5"] || [];
+      let hb_count_d5 = day_5_bx_array.filter(item => item === "HB").length;
+      let hhb_count_d5 = day_5_bx_array.filter(item => item === "HHB").length;
+      let d5_total_bx_count = hb_count_d5 + hhb_count_d5;
+      
+      let day_6_bx_array = table_existing_data["d6"] || [];
+      let hb_count_d6 = day_6_bx_array.filter(item => item === "HB").length;
+      let hhb_count_d6 = day_6_bx_array.filter(item => item === "HHB").length;
+      let d6_total_bx_count = hb_count_d6 + hhb_count_d6;
+      
+      let day_7_bx_array = table_existing_data["d7"] || [];
+      let hb_count_d7 = day_7_bx_array.filter(item => item === "HB").length;
+      let hhb_count_d7 = day_7_bx_array.filter(item => item === "HHB").length;
+      let d7_total_bx_count = hb_count_d7 + hhb_count_d7;
+      
+      let total_bx_pgs = d5_total_bx_count + d6_total_bx_count + d7_total_bx_count;
+
+      
+      form.setFieldsValue({
+        patient_name: patientData.name || "",
+        partner_name: patientData.spouse || "",
+        patient_dob: formatDate(patientData.dob) || "",
+        partner_dob: formatDate(patientData.spouse_dob) || "",
+        age: age || 0,
+        art: patientData.art || "",
+        dnr: patientData.donor_id || "",
+        age_oocyte: patientData.age || "",
+        sperm_source: patientData.sperm_source || "Donor",
+        sperm_bank: patientData.sperm_bank || "",
+        icsi: patientData.icsi || "",
+        total_thawed_eggs: patientData.thawed || "",
+        survived: patientData.survived || "",
+        mii: patientData.mii || "",
+        mi: patientData.mi || "",
+        one_pn: patientData.d1pn || "",
+        two_pn: patientData.d2pn || "",
+        cryo_two_pn: patientData.d2pn || "",
+        cryo_d5: patientData.d5 || "",
+        cryo_d6: patientData.d6 || "",
+        cryo_d7: patientData.d7 || "",
+        cryo_d3: patientData.d3 || "",
+        cryo_total: patientData.total_emb_cryo || "",
+        pgs_total_bx: patientData.total_bx || "",
+        comment: patientData.notes || "",
+        thaw_date: patientData.thaw_date || "",
+        fs_ml: semen_analysis_data?.fresh_semen?.volume || "",
+        fs_ml_10: semen_analysis_data?.fresh_semen?.count || "",
+        fs_percentage: semen_analysis_data?.fresh_semen?.motility || "",
+        fs_progressive: semen_analysis_data?.fresh_semen?.progressive || "",
+        at_ml: semen_analysis_data?.after_thawing?.volume || "",
+        at_ml_10: semen_analysis_data?.after_thawing?.count || "",
+        at_percentage: semen_analysis_data?.after_thawing?.motility || "",
+        at_progressive: semen_analysis_data?.after_thawing?.progressive || "",
+        f_ml: semen_analysis_data?.final?.volume || "",
+        f_ml_10: semen_analysis_data?.final?.count || "",
+        f_percentage: semen_analysis_data?.final?.motility || "",
+        f_progressive: semen_analysis_data?.final?.progressive || "",
+        egg_frozen_date: patientData.thaw_date || "",
+        egg_frozen_by: egg_frozen_by_field_value || "",
+        thaw_date_insert: patientData.thaw_date || "",
+        sperm_prep_by: emb_val_from_table || "",
+        d1_medium_change_initial: emb_val_from_table || "",
+        d3_medium_change_initial: emb_val_from_table || "",
+        worksheet_final_checking_initial: emb_val_from_table || "",
+        sperm_disc_by: emb_val_from_table || "",
+        oocyte_disc_by: emb_val_from_table || "",
+        embryo_disc_by: emb_val_from_table || "",
+        dish_prep_by: emb_val_from_table || "",
+        dish_prep_by_d1: emb_val_from_table || "",
+        sperm_disc_by_date: date_d1_val_from_table || "",
+        sperm_disc_by_date: date_d1_val_from_table || "",
+        sperm_disc_by_time: time_d1_val_from_table || "",
+        oocyte_disc_by_date: date_d1_val_from_table || "",
+        oocyte_disc_by_time: time_d1_val_from_table || "",
+        embryo_disc_by_date: date_d7_val_from_table || "",
+        embryo_disc_by_time: time_d7_val_from_table || "", 
+        day_5_bx: d5_total_bx_count || "0", 
+        day_6_bx: d6_total_bx_count || "0", 
+        day_7_bx: d7_total_bx_count || "0", 
+        pgs_total_bx: total_bx_pgs || "0", 
+      });
+
+    } else {
+      
+    }
+  }, [patient, form]);
+
+  const fetchPatientData = async (patientId) => {
+    const base_url = 'https://marketing.ps-baby.com/ajax';
+    try {
+      const response = await axios.get(base_url, {
+        params: {
+          action: 'egg_thaw_record_by_sales',
+          id: patientId,
+        },
+      });
   
- 
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error('Error fetching patient data:', error);
+    }
+  };
+  
+  const update_table_data_by_day = async (day, data) => {
+    try {
+      let days = day;
+      let datas = data;
+      const patientData = patient[0];
+      const response = await axios.get(base_url, {
+        params: {
+          action: "update_daily_report_by_day",
+          id_sales: patientData.id,
+          days: JSON.stringify(days),
+          data: JSON.stringify(datas),
+        },
+      });
+      if(response.data.type === "success"){
+        const table_new_data =await fetchPatientData(patientData.id);
+        setPatient(table_new_data); 
+        const updatedPatientData = table_new_data[0];
+        const table_existing_new = safeJsonParse(updatedPatientData.daily_report);
+        if (Object.keys(table_existing_new).length > 0) {
+            const updatedData = transformDataForTable(table_existing_new);
+            setData(updatedData); 
+        }
+        
+      }
+    } catch (error) {
+      console.error("Error sending daily report:", error);
+    }
+  };
+
+  // Function to handle sending daily report data to the API using FormData
+  const sendDailyReport = async (transformedData) => {
+    try {
+      const patientData = patient[0];
+      let formData = new FormData();
+      formData.append("id_inv", patientData.id);
+      formData.append("daily_report", JSON.stringify(transformedData));
+      // const response = await axios.post('http://localhost/marketing/ajax?action=inv_update_daily_report', formData, {
+      const response = await axios.post(
+        "https://marketing.ps-baby.com/ajax?action=inv_update_daily_report",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error sending daily report:", error);
+    }
+  };
+  
+  // Function to handle sending egg thaw details to the API
+  const sendEggThawDetails = async (values) => {
+    try {
+      const patientData = patient[0];
+      const semenAnalysisData = {
+        fresh_semen: {
+          volume: values.fs_ml || 'NA',
+          count: values.fs_ml_10 || 'NA',
+          motility: values.fs_percentage || 'NA',
+          progressive: values.fs_progressive || 'NA',
+        },
+        after_thawing: {
+          volume: values.at_ml || 'NA',
+          count: values.at_ml_10 || 'NA',
+          motility: values.at_percentage || 'NA',
+          progressive: values.at_progressive || 'NA',
+        },
+        final: {
+          volume: values.f_ml || 'NA',
+          count: values.f_ml_10 || 'NA',
+          motility: values.f_percentage || 'NA',
+          progressive: values.f_progressive || 'NA',
+        },
+      };
+
+      const semenAnalysisDataString = JSON.stringify(semenAnalysisData);
+
+      const response = await axios.get(base_url, {
+        params: {
+          action: "inv_save_or_update_egg_thaw_details",
+          id_inv: patientData.id,
+          art: values.art,
+          procedure_date: "",
+          receipt_date: "",
+          sperm_source: values.sperm_source,
+          sperm_details: "",
+          sperm_bank: values.sperm_bank,
+          fresh_or_frozen_sperm: "",
+          sperm_donor_id: "",
+          sperm_receipt_date: "",
+          tms: "",
+          thawed: values.total_thawed_eggs,
+          survived: values.survived,
+          mii: values.mii,
+          mi: values.mi,
+          assigned: "",
+          icsi: values.icsi,
+          d1pn: values.one_pn,
+          d2pn: values.two_pn,
+          d3pn_more: "",
+          fert: "",
+          hatched: "",
+          no_of_embryos_cleaved: "",
+          total_bl: "",
+          initial_cryo_date: "",
+          d5: values.cryo_d5,
+          d6: values.cryo_d6,
+          d7: values.cryo_d7,
+          d3: values.cryo_d3, 
+          total_emb_cryo: values.cryo_total,
+          pgs: "",
+          euploid: "",
+          aneuploid: "",
+          no_result: "",
+          mosaic: "",
+          untested: "",
+          total_bx: values.pgs_total_bx,
+          thaw_emb: "",
+          icsi_emb: "",
+          biopsy_emb: "",
+          sperm_proc: "",
+          fert_check: "",
+          assisted_hatching: "",
+          cryo_emb: "",
+          cane_color: "",
+          straws: "",
+          tank: "",
+          canister: "",
+          in_storage: "",
+          storage_clinic: "",
+          note: values.comment,
+          semen_analysis: semenAnalysisDataString,
+          thaw_date: values.thaw_date,
+        },
+      });
+    } catch (error) {
+      console.error("Error sending egg thaw details:", error);
+    }
+  };
+  
+  // Combined handleSubmit function to call both APIs
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields();
+      const transformedData = transformData();
+      await sendEggThawDetails(values);
+      await sendDailyReport(transformedData);
+
+      const updatedPatientData = await fetchPatientData(patient[0].id);
+      
+      if (updatedPatientData) {
+        setPatient(updatedPatientData); 
+        message.success("Form submitted successfully!");
+      } else {
+        message.error("Failed to retrieve updated patient data.");
+      }
+    } catch (error) {
+      message.success("Form submitted successfully!");
+      console.error("Error during form submission:", error);
+    }
+  };
+
+
+  const onDateChangeFields   = (name, dateString) => {
+      form.setFieldsValue({ [name]: dateString });
+  };
 
   // All Functions
   // Show modal and set current field
@@ -542,23 +919,43 @@ function FormCom({ patient }) {
   const handleSelectChange = (value) => {
     
     if (value === "Donor" && currentField == "oocyte_source") {
-      let  sorologyValue = "N/A";
+      let  serologyValue = "N/A";
       setSelectedValues((prevValues) => ({
         ...prevValues,
-        sorology: sorologyValue, 
+        serology: serologyValue, 
       }));
       form.setFieldsValue({
-        sorology: sorologyValue,
+        serology: serologyValue,
       });
       setIsModalVisible(false);
     } else if (value === "Patient"  && currentField == "oocyte_source") {
-      let sorologyValue = "Biohazard";
+      let serologyValue = "Biohazard";
       setSelectedValues((prevValues) => ({
         ...prevValues,
-        sorology: sorologyValue, 
+        serology: serologyValue, 
       }));
       form.setFieldsValue({
-        sorology: sorologyValue,
+        serology: serologyValue,
+      });
+      setIsModalVisible(false);
+    } else if (value === "Donor" && currentField == "sperm_source") {
+      let  serologyValue = "N/A";
+      setSelectedValues((prevValues) => ({
+        ...prevValues,
+        sperm_serology: serologyValue, 
+      }));
+      form.setFieldsValue({
+        sperm_serology: serologyValue,
+      });
+      setIsModalVisible(false);
+    } else if (value === "Patient"  && currentField == "sperm_source") {
+      let serologyValue = "Biohazard";
+      setSelectedValues((prevValues) => ({
+        ...prevValues,
+        sperm_serology: serologyValue, 
+      }));
+      form.setFieldsValue({
+        sperm_serology: serologyValue,
       });
       setIsModalVisible(false);
     } 
@@ -571,22 +968,6 @@ function FormCom({ patient }) {
       [currentField]: value,
     });
     setIsModalVisible(false);
-  };
-
-  
-
-  const handlePdfDownload = () => {
-    const input = document.getElementById("pdfForm"); 
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("form.pdf");
-    });
   };
 
   const formatDate = (dateString) => {
@@ -607,9 +988,7 @@ function FormCom({ patient }) {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
 
-
-
-  const onCalenderSelect = (value: Dayjs) => {
+  const onCalenderSelect = (value) => {
     if (value) {
       const formattedDate = value.format("MM/DD/YYYY");
       if (currentField) {
@@ -623,6 +1002,31 @@ function FormCom({ patient }) {
       setOpenCalender(false);
     }
   };
+
+
+  
+// const onCalenderSelect = (value) => {
+//   if (value) {
+//     const formattedDate = value.format("MM/DD/YYYY");
+
+//     // Ensure that only day selection triggers the value set
+//     const today = new Date();
+//     const selectedDate = value.toDate();
+    
+//     // Only proceed if the selected day is different from the current day
+//     if (today.getDate() !== selectedDate.getDate()) {
+//       if (currentField) {
+//         form.setFieldsValue({ [currentField]: formattedDate });
+//       }
+
+//       // if (currentField === "thaw_date") {
+//       //   form.setFieldsValue({ egg_frozen_date: value.format("MM-DD-YYYY") });
+//       // }
+
+//       setOpenCalender(false); 
+//     }
+//   }
+// };
 
   const handleOpenCalendar = (field) => {
     setCurrentField(field);
@@ -643,20 +1047,16 @@ function FormCom({ patient }) {
     setCurrentField(field);
     setOpenTime(true);
   };
-
   // Table code
   const handleChange = (value) => {
     if (selectedRowData) {
-
       const newData = data.map((row) => {
-        
         if (currentFieldtable === 'emb') {
           return {
             ...row,
             emb: value, 
           };
         }
-
         if (row.key === selectedRowData.key) {
           return {
             ...row,
@@ -665,8 +1065,6 @@ function FormCom({ patient }) {
         }
         return row;
       });
-      
-
       if(value === 'AL'){
         let arrayData = newData.map((row) => [
           row.emb || value,
@@ -772,52 +1170,6 @@ function FormCom({ patient }) {
 
   const handleDateSelect = (date) => {
     handleChange(date.format("MM/DD/YYYY"));
-  };
-
-  const fetchPatientData = async (patientId) => {
-    const base_url = 'https://marketing.ps-baby.com/ajax';
-    try {
-      const response = await axios.get(base_url, {
-        params: {
-          action: 'egg_thaw_record_by_sales',
-          id: patientId,
-        },
-      });
-  
-      if (response.data) {
-        return response.data;
-      }
-    } catch (error) {
-      console.error('Error fetching patient data:', error);
-    }
-  };
-  
-  const update_table_data_by_day = async (day, data) => {
-    try {
-      let days = day;
-      let datas = data;
-      const patientData = patient[0];
-      const response = await axios.get(base_url, {
-        params: {
-          action: "update_daily_report_by_day",
-          id_sales: patientData.id,
-          days: JSON.stringify(days),
-          data: JSON.stringify(datas),
-        },
-      });
-      if(response.data.type === "success"){
-        const table_new_data =await fetchPatientData(patientData.id);
-        const updatedPatientData = table_new_data[0];
-        const table_existing_new = safeJsonParse(updatedPatientData.daily_report);
-        if (Object.keys(table_existing_new).length > 0) {
-            const updatedData = transformDataForTable(table_existing_new);
-            setData(updatedData); 
-        }
-        
-      }
-    } catch (error) {
-      console.error("Error sending daily report:", error);
-    }
   };
 
   const currentTime = new Date().toLocaleTimeString('en-US', {
@@ -3364,134 +3716,8 @@ function FormCom({ patient }) {
     });
   };
 
-  const getCycleValue = (cycle) => {
-    return cycle === 'A' ? 1
-         : cycle === 'B' ? 2
-         : cycle === 'C' ? 3
-         : cycle === 'D' ? 4
-         : cycle === 'E' ? 5
-         : cycle === 'F' ? 6
-         : cycle === 'G' ? 7
-         : 'Invalid Cycle';
-  };
+ 
 
-  useEffect(() => {
-    if ( Array.isArray(patient) && patient.length > 0 && typeof patient[0] === "object" ) {
-      const patientData = patient[0];
-      const table_existing_data = safeJsonParse(patientData.daily_report);
-      const semen_analysis_data = safeJsonParse(patientData.semen_analysis);
-
-      if (Object.keys(table_existing_data).length > 0) {
-        const updatedData = transformDataForTable(table_existing_data);
-        setData(updatedData);
-      }
-
-      const age = calculateAge(patientData.dob);
-      let egg_frozen_by_field_value = '';
-      const donor_id_exist_UG_OVO = patientData.donor_id;
-
-      if (donor_id_exist_UG_OVO.includes("UG")) {
-        egg_frozen_by_field_value = `${patientData.retrieval_center}-UG`;
-      } 
-      if (donor_id_exist_UG_OVO.includes("OVO")) {
-        egg_frozen_by_field_value = `${patientData.retrieval_center}-OVO`;
-      } 
-      if (!donor_id_exist_UG_OVO.includes("UG") && !donor_id_exist_UG_OVO.includes("OVO")) {
-        egg_frozen_by_field_value = patientData.retrieval_center;
-      }
-
-      let emb_val_from_table = table_existing_data.d1[0];
-      let date_d1_val_from_table = table_existing_data.d1[1];
-      let time_d1_val_from_table = table_existing_data.d1[2];
-      let date_d7_val_from_table = table_existing_data.d7[1];
-      let time_d7_val_from_table = table_existing_data.d7[2];
-      
-      let day_5_bx_array =table_existing_data["d5"];
-      let hb_count_d5 = day_5_bx_array.filter(item => item === "HB").length;
-      let hhb_count_d5 = day_5_bx_array.filter(item => item === "HHB").length;
-      let d5_total_bx_count = hb_count_d5+hhb_count_d5;
-
-      let day_6_bx_array =table_existing_data["d6"];
-      let hb_count_d6 = day_6_bx_array.filter(item => item === "HB").length;
-      let hhb_count_d6 = day_6_bx_array.filter(item => item === "HHB").length;
-      let d6_total_bx_count = hb_count_d6+hhb_count_d6;
-      
-      let day_7_bx_array =table_existing_data["d7"];
-      let hb_count_d7 = day_7_bx_array.filter(item => item === "HB").length;
-      let hhb_count_d7 = day_7_bx_array.filter(item => item === "HHB").length;
-      let d7_total_bx_count = hb_count_d7+hhb_count_d7;
-
-      let total_bx_pgs =  d5_total_bx_count + d6_total_bx_count + d7_total_bx_count;
-
-      
-      form.setFieldsValue({
-        patient_name: patientData.name || "",
-        partner_name: patientData.spouse || "",
-        patient_dob: formatDate(patientData.dob) || "",
-        partner_dob: formatDate(patientData.spouse_dob) || "",
-        age: age || 0,
-        cycle: getCycleValue(patientData.cycle) || "",
-        art: patientData.art || "",
-        dnr: patientData.donor_id || "",
-        age_oocyte: patientData.age || "",
-        sperm_source: patientData.sperm_source || "Donor",
-        sperm_bank: patientData.sperm_bank || "",
-        icsi: patientData.icsi || "",
-        total_thawed_eggs: patientData.thawed || "",
-        survived: patientData.survived || "",
-        mii: patientData.mii || "",
-        mi: patientData.mi || "",
-        two_pn: patientData.d2pn || "",
-        cryo_two_pn: patientData.d2pn || "",
-        cryo_d5: patientData.d5 || "",
-        cryo_d6: patientData.d6 || "",
-        cryo_d7: patientData.d7 || "",
-        cryo_d3: patientData.d3 || "",
-        cryo_total: patientData.total_emb_cryo || "",
-        pgs_total_bx: patientData.total_bx || "",
-        comment: patientData.notes || "",
-        thaw_date: patientData.thaw_date || "",
-        fs_ml: semen_analysis_data?.fresh_semen?.volume || "",
-        fs_ml_10: semen_analysis_data?.fresh_semen?.count || "",
-        fs_percentage: semen_analysis_data?.fresh_semen?.motility || "",
-        fs_progressive: semen_analysis_data?.fresh_semen?.progressive || "",
-        at_ml: semen_analysis_data?.after_thawing?.volume || "",
-        at_ml_10: semen_analysis_data?.after_thawing?.count || "",
-        at_percentage: semen_analysis_data?.after_thawing?.motility || "",
-        at_progressive: semen_analysis_data?.after_thawing?.progressive || "",
-        f_ml: semen_analysis_data?.final?.volume || "",
-        f_ml_10: semen_analysis_data?.final?.count || "",
-        f_percentage: semen_analysis_data?.final?.motility || "",
-        f_progressive: semen_analysis_data?.final?.progressive || "",
-        egg_frozen_date: patientData.thaw_date || "",
-        egg_frozen_by: egg_frozen_by_field_value || "",
-        thaw_date_insert: patientData.thaw_date || "",
-        sperm_prep_by: emb_val_from_table || "",
-        d1_medium_change_initial: emb_val_from_table || "",
-        d3_medium_change_initial: emb_val_from_table || "",
-        worksheet_final_checking_initial: emb_val_from_table || "",
-        sperm_disc_by: emb_val_from_table || "",
-        oocyte_disc_by: emb_val_from_table || "",
-        embryo_disc_by: emb_val_from_table || "",
-        dish_prep_by: emb_val_from_table || "",
-        dish_prep_by_d1: emb_val_from_table || "",
-        sperm_disc_by_date: date_d1_val_from_table || "",
-        sperm_disc_by_date: date_d1_val_from_table || "",
-        sperm_disc_by_time: time_d1_val_from_table || "",
-        oocyte_disc_by_date: date_d1_val_from_table || "",
-        oocyte_disc_by_time: time_d1_val_from_table || "",
-        embryo_disc_by_date: date_d7_val_from_table || "",
-        embryo_disc_by_time: time_d7_val_from_table || "", 
-        day_5_bx: d5_total_bx_count || "0", 
-        day_6_bx: d6_total_bx_count || "0", 
-        day_7_bx: d7_total_bx_count || "0", 
-        pgs_total_bx: total_bx_pgs || "0", 
-      });
-
-    } else {
-      
-    }
-  }, [patient, form]);
 
   const safeJsonParse = (str) => {
     if (!str) {
@@ -3540,132 +3766,6 @@ function FormCom({ patient }) {
     return transformed;
   };
 
-  // Function to handle sending daily report data to the API using FormData
-  const sendDailyReport = async (transformedData) => {
-    try {
-      const patientData = patient[0];
-      let formData = new FormData();
-      formData.append("id_inv", patientData.id);
-      formData.append("daily_report", JSON.stringify(transformedData));
-      // const response = await axios.post('http://localhost/marketing/ajax?action=inv_update_daily_report', formData, {
-      const response = await axios.post(
-        "https://marketing.ps-baby.com/ajax?action=inv_update_daily_report",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-    } catch (error) {
-      console.error("Error sending daily report:", error);
-    }
-  };
-
-  // Function to handle sending egg thaw details to the API
-  const sendEggThawDetails = async (values) => {
-    try {
-      const patientData = patient[0];
-      const semenAnalysisData = {
-        fresh_semen: {
-          volume: values.fs_ml || 'NA',
-          count: values.fs_ml_10 || 'NA',
-          motility: values.fs_percentage || 'NA',
-          progressive: values.fs_progressive || 'NA',
-        },
-        after_thawing: {
-          volume: values.at_ml || 'NA',
-          count: values.at_ml_10 || 'NA',
-          motility: values.at_percentage || 'NA',
-          progressive: values.at_progressive || 'NA',
-        },
-        final: {
-          volume: values.f_ml || 'NA',
-          count: values.f_ml_10 || 'NA',
-          motility: values.f_percentage || 'NA',
-          progressive: values.f_progressive || 'NA',
-        },
-      };
-
-      const semenAnalysisDataString = JSON.stringify(semenAnalysisData);
-
-      const response = await axios.get(base_url, {
-        params: {
-          action: "inv_save_or_update_egg_thaw_details",
-          id_inv: patientData.id,
-          art: values.art,
-          procedure_date: "",
-          receipt_date: "",
-          sperm_source: values.sperm_source,
-          sperm_details: "",
-          sperm_bank: values.sperm_bank,
-          fresh_or_frozen_sperm: "",
-          sperm_donor_id: "",
-          sperm_receipt_date: "",
-          tms: "",
-          thawed: values.total_thawed_eggs,
-          survived: values.survived,
-          mii: values.mii,
-          mi: values.mi,
-          assigned: "",
-          icsi: values.icsi,
-          d1pn: values.one_pn,
-          d2pn: values.two_pn,
-          d3pn_more: "",
-          fert: "",
-          hatched: "",
-          no_of_embryos_cleaved: "",
-          total_bl: "",
-          initial_cryo_date: "",
-          d5: values.cryo_d5,
-          d6: values.cryo_d6,
-          d7: values.cryo_d7,
-          d3: values.cryo_d3, 
-          total_emb_cryo: values.cryo_total,
-          pgs: "",
-          euploid: "",
-          aneuploid: "",
-          no_result: "",
-          mosaic: "",
-          untested: "",
-          total_bx: values.pgs_total_bx,
-          thaw_emb: "",
-          icsi_emb: "",
-          biopsy_emb: "",
-          sperm_proc: "",
-          fert_check: "",
-          assisted_hatching: "",
-          cryo_emb: "",
-          cane_color: "",
-          straws: "",
-          tank: "",
-          canister: "",
-          in_storage: "",
-          storage_clinic: "",
-          note: values.comment,
-          semen_analysis: semenAnalysisDataString,
-          thaw_date: values.thaw_date,
-        },
-      });
-    } catch (error) {
-      console.error("Error sending egg thaw details:", error);
-    }
-  };
-
-  // Combined handleSubmit function to call both APIs
-  const handleSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      const transformedData = transformData();
-      await sendEggThawDetails(values);
-      await sendDailyReport(transformedData);
-      message.success("Form submitted successfully!");
-    } catch (error) {
-      message.success("Form submitted successfully!");
-      console.error("Error during form submission:", error);
-    }
-  };
-
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -3705,9 +3805,7 @@ function FormCom({ patient }) {
             justifyContent: "flex-end",
           }}
         >
-          <Button type="primary" danger ghost style={{ textAlign: "center", margin: "0", background: "rgb(138, 98, 165)", border: "1px solid rgb(138, 98, 165)", color: "#fff", fontWeight: "600", fontSize: "20px", width: "360px", height: "50px", borderRadius: "10px", fontSize: "25px !important" , display: 'none'}}
-            onClick={handlePdfDownload}
-          >
+          <Button type="primary" danger ghost style={{ textAlign: "center", margin: "0", background: "rgb(138, 98, 165)", border: "1px solid rgb(138, 98, 165)", color: "#fff", fontWeight: "600", fontSize: "20px", width: "360px", height: "50px", borderRadius: "10px", fontSize: "25px !important"}}>
             <span style={{ fontSize: "18px" }}>
               Print PDF{" "}
               <i
@@ -3766,7 +3864,7 @@ function FormCom({ patient }) {
               <Row gutter={10} style={{ marginLeft: "0", marginRight: "0", borderRadius: "0px 0px 10px 10px", }} >
                 <Col span={24} style={col_input_spaceing_header2}>
                   <Title level={4} style={{ width: "100%" , color: "#8A62A5", alignItems: 'center', alignSelf: 'center', marginTop: '0px' , fontWeight: '700', marginLeft: '-15px'}}>
-                    Cycle Type :{" "}
+                    Cycle Type:{" "}
                     <span style={{ fontSize: "18px", color: "#1F1F1F", fontWeight: '600' }}>
                       Egg Thawing, ICSI & Culture{" "}
                     </span>{" "}
@@ -3863,325 +3961,421 @@ function FormCom({ patient }) {
           {/* 1st col  */}
           <Col span={4} className="gutter-row">
             <div style={innner_con}>
-              <Row gutter={15}>
-                <Col span={24}>
+              <Row >
+
+                <Col span={24} style={headingbackgroundColor}>
                   <Title level={5} style={{ ...title_s_style_p }}>
                     Patient Details:
                   </Title>
                 </Col>
-                <Col span={24}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "100px",
-                          textAlign: "left",
-                        }}
+
+                <Col span={24} style={conBodystyle}>
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "100px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Patient Name:
+
+                          </span>
+                        }
+                        name="patient_name"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+
                       >
-                        Patient Name
-                      </span>
-                    }
-                    name="patient_name"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
+                        <Input style={{ ...inputfiled_style, cursor: 'no-drop'}} readOnly/>
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "100px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Patient DOB:
+                          </span>
+                        }
+                        name="patient_dob"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                        
+                      >
+                        <Input
+                          style={{ ...inputfiled_style, cursor: 'no-drop'}}
+                          // onClick={() => handleOpenCalendar("patient_dob")}
+                          readOnly
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={24} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "30px",
+                              textAlign: "left",
+                            }}
+                          >
+                            ART:
+                          </span>
+                        }
+                        name="art"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12} style={col_input_spaceing}>
+                      <Form.Item
+                        // label={<span style={{ display: 'inline-block', width: '40px', textAlign: 'left' }}>Age</span>}
+                        label="Age:"
+                        name="age"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={{ ...inputfiled_style, cursor: 'no-drop'}} readOnly/>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "35px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Cycle:
+                          </span>
+                        }
+                        name="cycle"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </Col>
 
-                <Col span={24} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "100px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Patient DOB
-                      </span>
-                    }
-                    name="patient_dob"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                    
-                  >
-                    <Input
-                      style={inputfiled_style}
-                      onClick={() => handleOpenCalendar("patient_dob")}
-                      readOnly
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col span={24} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "30px",
-                          textAlign: "left",
-                        }}
-                      >
-                        ART
-                      </span>
-                    }
-                    name="art"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={12} style={col_input_spaceing}>
-                  <Form.Item
-                    // label={<span style={{ display: 'inline-block', width: '40px', textAlign: 'left' }}>Age</span>}
-                    label="Age"
-                    name="age"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={12} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "35px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Cycle
-                      </span>
-                    }
-                    name="cycle"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={4} className="gutter-row">
-            <div style={innner_con}>
-              <Row gutter={15}>
-                <Col span={24}>
+                {/* <Col span={24} style={{...headingbackgroundColor , marginTop: '-25px' }}>
                   <Title level={5} style={{ ...title_s_style_p }}>
                     Partner Details:
                   </Title>
                 </Col>
 
-                <Col span={24}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "100px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Partner Name
-                      </span>
-                    }
-                    name="partner_name"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-
-                <Col span={24} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "100px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Partner DOB
-                      </span>
-                    }
-                    name="partner_dob"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                    
-                  >
-                    {/* <DatePicker   style={inputfiled_style}/> */}
-                    <Input
-                      style={inputfiled_style}
-                      onClick={() => handleOpenCalendar("partner_dob")}
-                      readOnly
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={6} className="gutter-row">
-            <div style={innner_con}>
-              <Row gutter={15}>
+                <Col span={24} style={conBodystyle}>
+                    <Row gutter={10}>
                       <Col span={24}>
-                        <Title level={5} style={{ ...title_s_style_p }} >
-                          Oocyte Source:
-                        </Title>
-                      </Col>
-                      <Col span={14} style={{}}>
-                        <Form.Item label={ <span style={{ display: "inline-block", width: "50px", textAlign: "left", }} > DNR </span> } name="dnr" validateTrigger="onBlur" layout="horizontal" >
-                          <Input style={inputfiled_style} />
-                        </Form.Item>
-                      </Col>
-                      <Col span={10} >
                         <Form.Item
                           label={
                             <span
                               style={{
                                 display: "inline-block",
-                                width: "28px",
+                                width: "100px",
                                 textAlign: "left",
                               }}
                             >
-                              Age
+                              Partner Name:
                             </span>
                           }
-                          name="age_oocyte"
+                          name="partner_name"
                           validateTrigger="onBlur"
                           layout="horizontal"
+                          colon={false}
                         >
-                          <Input style={inputfiled_style} />
-                        </Form.Item>
-                      </Col>
-                      <Col span={11} style={{ marginTop: "-25px" }}>
-                        <Form.Item 
-                        label={
-                          <span
-                            style={{
-                              display: "inline-block",
-                              width: "50px",
-                              textAlign: "left",
-                            }}
-                          >
-                            Source
-                          </span>
-                        }
-                        name="oocyte_source" initialValue={"Donor"}>
-                            <Input
-                              style={inputfiled_style}
-                              value={selectedValues.oocyte_source || "Donor"}
-                              onClick={() => showModal("oocyte_source")}
-                              readOnly
-                              placeholder="Select Option"
-                            
-                            />
+                          <Input style={inputfiled_style} readOnly/>
                         </Form.Item>
                       </Col>
 
-                      <Col span={13} style={{ marginTop: "-25px" }}>
-                            <Form.Item 
-                            label={
-                              <span
-                                style={{
-                                  display: "inline-block",
-                                  width: "60px",
-                                  textAlign: "left",
-                                }}
-                              >
-                                Sorology
-                              </span>
-                            }
-                            name="sorology" initialValue={"N/A"}>
-                              <Input
-                                style={inputfiled_style}
-                                readOnly
-                                placeholder="Select Option"
-                              />
-                            </Form.Item>
-                      </Col>
-
-                      {
-                        form.getFieldValue('sorology') == 'Biohazard' &&
-                        <Col span={24} style={{ marginTop: "-25px" }}>
-                            <Form.Item 
-                            label={
-                              <span
-                                style={{
-                                  
-                                  display: "inline-block",
-                                  width: "120px",
-                                  textAlign: "left",
-                                }}
-                              >
-                                Sorology Positive
-                              </span>
-                            }
-                            name="sorology_positive"
-                            
+                      <Col span={24} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "100px",
+                                textAlign: "left",
+                              }}
                             >
-                              <Input
-                                style={inputfiled_style}
-                                value={selectedValues.sorology_positive}
-                                onClick={() => showModal("sorology_positive")}
-                                readOnly
-                                placeholder="Select Option"
-                              />
-                            </Form.Item>
+                              Partner DOB:
+                            </span>
+                          }
+                          name="partner_dob"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                          
+                        >
+                         
+                          <Input
+                            style={inputfiled_style}
+                            readOnly
+                          />
+                        </Form.Item>
                       </Col>
-                      }
-
-                      {
-                        form.getFieldValue('sorology_positive') == 'Other' &&
-                        form.getFieldValue('sorology') === 'Biohazard' &&
-                        <Col span={24} style={{ marginTop: "-25px" }}>
-                            <Form.Item 
-                            label={
-                              <span
-                                style={{
-                                  display: "inline-block",
-                                  width: "100%",
-                                  textAlign: "left",
-                                }}
-                              >
-                                Add a Note:
-                              </span>
-                            }
-                            name="oocyte_note"
-                            layout="vertical" 
-                            >
-                              <TextArea
-                                style={{
-                                  ...inputfiled_style_text_box,
-                                  
-                                }}
-                              />
-                            </Form.Item>
-                      </Col>
-                      }
+                    </Row>
+                </Col> */}
+                
               </Row>
             </div>
           </Col>
-          <Col span={5} className="gutter-row">
+          {/* 2nd col  */}
+          <Col span={4} className="gutter-row">
             <div style={innner_con}>
-            <Row gutter={15}>
-                    <Col span={24}>
+              <Row >
+                <Col span={24} style={headingbackgroundColor}>
+                  <Title level={5} style={{ ...title_s_style_p }}>
+                    Partner Details:
+                  </Title>
+                </Col>
+
+                <Col span={24} style={conBodystyle}>
+                    <Row gutter={10}>
+                      <Col span={24}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "100px",
+                                textAlign: "left",
+                              }}
+                            >
+                              Partner Name:
+                            </span>
+                          }
+                          name="partner_name"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                        >
+                          <Input style={{ ...inputfiled_style, cursor: 'no-drop'}} readOnly/>
+                        </Form.Item>
+                      </Col>
+
+                      <Col span={24} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "100px",
+                                textAlign: "left",
+                              }}
+                            >
+                              Partner DOB:
+                            </span>
+                          }
+                          name="partner_dob"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                          
+                        >
+                         
+                          <Input
+                            style={{ ...inputfiled_style, cursor: 'no-drop'}}
+                            readOnly
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                </Col>
+
+                
+              </Row>
+            </div>
+          </Col>
+          {/* 3rd col  */}
+          <Col span={6} className="gutter-row">
+            <div style={innner_con}>
+              <Row >
+                      <Col span={24} style={headingbackgroundColor}>
+                        <Title level={5} style={{ ...title_s_style_p }} >
+                          Oocyte Source:
+                        </Title>
+                      </Col>
+
+                      <Col span={24} style={conBodystyle}>
+                        <Row gutter={10}>
+                              <Col span={14} style={{}}>
+                              <Form.Item label={ <span style={{ display: "inline-block", width: "55px", textAlign: "left", }} > Donor ID: </span> } name="dnr" validateTrigger="onBlur" layout="horizontal" colon={false}>
+                                <Input style={{ ...inputfiled_style, cursor: 'no-drop'}} readOnly/>
+                              </Form.Item>
+                            </Col>
+                            <Col span={10} >
+                              <Form.Item
+                                label={
+                                  <span
+                                    style={{
+                                      display: "inline-block",
+                                      width: "28px",
+                                      textAlign: "left",
+                                    }}
+                                  >
+                                    Age:
+                                  </span>
+                                }
+                                name="age_oocyte"
+                                validateTrigger="onBlur"
+                                layout="horizontal"
+                                colon={false}
+                              >
+                                <Input style={{ ...inputfiled_style, cursor: 'no-drop'}} readOnly/>
+                              </Form.Item>
+                            </Col>
+                            <Col span={12} style={{ marginTop: "-25px" }}>
+                              <Form.Item 
+                              label={
+                                <span
+                                  style={{
+                                    display: "inline-block",
+                                    width: "55px",
+                                    textAlign: "left",
+                                  }}
+                                >
+                                  Source:
+                                </span>
+                              }
+                              name="oocyte_source" initialValue={"Donor"} colon={false}>
+                                  <Input
+                                    style={inputfiled_style}
+                                    value={selectedValues.oocyte_source || "Donor"}
+                                    onClick={() => showModal("oocyte_source")}
+                                    readOnly
+                                    placeholder="Select Option"
+                                  />
+                              </Form.Item>
+                            </Col>
+
+
+                              <Col span={12} style={{ marginTop: "-25px" }}>
+                                  <Form.Item 
+                                  label={
+                                    <span
+                                      style={{
+                                        
+                                        display: "inline-block",
+                                        width: "65px",
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      Serology:
+                                    </span>
+                                  }
+                                  name="serology"
+                                  colon={false}
+                                  initialValue={"N/A"}
+                                  
+                                  >
+                                    <Input
+                                      style={inputfiled_style}
+                                      value={selectedValues.serology}
+                                      onClick={() => showModal("serology")}
+                                      readOnly
+                                      placeholder="Select Option"
+                                   
+                                    />
+                                  </Form.Item>
+                            </Col>
+                            {
+                              form.getFieldValue('serology') == 'Biohazard' &&
+                              <Col span={24} style={{ marginTop: "-25px" }}>
+                                  <Form.Item 
+                                  label={
+                                    <span
+                                      style={{
+                                        
+                                        display: "inline-block",
+                                        width: "120px",
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      Serology Positive
+                                    </span>
+                                  }
+                                  name="serology_positive"
+                                  
+                                  >
+                                    <Input
+                                      style={inputfiled_style}
+                                      value={selectedValues.serology_positive}
+                                      onClick={() => showModal("serology_positive")}
+                                      readOnly
+                                      placeholder="Select Option"
+                                    />
+                                  </Form.Item>
+                            </Col>
+                            }
+
+                            {
+                              form.getFieldValue('serology_positive') == 'Other' &&
+                              form.getFieldValue('serology') === 'Biohazard' &&
+                              <Col span={24} style={{ marginTop: "-25px" }}>
+                                  <Form.Item 
+                                  label={
+                                    <span
+                                      style={{
+                                        display: "inline-block",
+                                        width: "100%",
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      Add a Note:
+                                    </span>
+                                  }
+                                  name="oocyte_note"
+                                  layout="horizontal" 
+                                  colon={false}
+                                  >
+                                    {/* <TextArea
+                                      style={{
+                                        ...inputfiled_style_text_box,
+                                        
+                                      }}
+                                    /> */}
+                                    <Input style={inputfiled_style}/>
+                                  </Form.Item>
+                            </Col>
+                            }
+                        </Row>
+                      </Col>
+              </Row>
+            </div>
+          </Col>
+          {/* 4th col  */}
+          <Col span={6} className="gutter-row">
+            <div style={innner_con}>
+            <Row >
+                    <Col span={24} style={headingbackgroundColor}>
                       <Title level={5} style={{ ...title_s_style_p }}>
                         Sperm Source:
                       </Title>
                     </Col>
 
-                   
-
-                    <Col span={24} style={{ marginTop: "0px" }}>
+                    <Col span={24} style={conBodystyle}>
+                      <Row gutter={10}>
+                      <Col span={24} style={{ marginTop: "0px" }}>
                         <Form.Item 
                         label={
                           <span
@@ -4191,9 +4385,11 @@ function FormCom({ patient }) {
                               textAlign: "left",
                             }}
                           >
-                           Sperm Source
+                           Sperm Source:
                           </span>
+
                         }
+                        colon={false}
                         name="sperm_source" initialValue={"Donor"}>
                             <Input
                               style={inputfiled_style}
@@ -4209,66 +4405,68 @@ function FormCom({ patient }) {
                       {
                          form.getFieldValue('sperm_source') == 'Donor' &&
                          <>
-                          <Col span={24} style={{ marginTop: "-25px" }}>
+                          <Col span={14} style={{ marginTop: "-25px" }}>
                           <Form.Item
                             label={
                               <span
                                 style={{
                                   display: "inline-block",
-                                  width: "100px",
+                                  width: "80px",
                                   textAlign: "left",
                                 }}
                               >
-                                Sperm Bank
+                                Sperm Bank:
                               </span>
                             }
                             name="sperm_bank"
                             validateTrigger="onBlur"
                             layout="horizontal"
+                            colon={false}
                           >
                             <Input style={inputfiled_style} />
                           </Form.Item>
                         </Col>
-                        <Col span={24} style={{ marginTop: "-30px" }}>
+                        <Col span={10} style={{ marginTop: "-25px" }}>
                           <Form.Item
                             label={
                               <span
                                 style={{
                                   display: "inline-block",
-                                  width: "100px",
+                                  width: "30px",
                                   textAlign: "left",
                                 }}
                               >
-                                Vial #
+                                Vial #:
                               </span>
                             }
                             name="sperm_visit"
                             validateTrigger="onBlur"
                             layout="horizontal"
+                            colon={false}
                           >
                             <Input style={inputfiled_style} />
                           </Form.Item>
                         </Col>
                        </>
                       }
-
                       {
 
                         form.getFieldValue('sperm_source') == 'Patient' && 
                         <>
-                          <Col span={24} style={{ marginTop: "-25px" }}>
+                          <Col span={12} style={{ marginTop: "-25px" }}>
                               <Form.Item 
                               label={
                                 <span
                                   style={{
                                     display: "inline-block",
-                                    width: "100px",
+                                    width: "80px",
                                     textAlign: "left",
                                   }}
                                 >
-                                  Sperm Type
+                                  Sperm Type:
                                 </span>
                               }
+                              colon={false}
                               name="sperm_type" initialValue={"Fresh"}>
                                   <Input
                                     style={inputfiled_style}
@@ -4283,20 +4481,19 @@ function FormCom({ patient }) {
                         </>
                       }
 
-
                       {
-                        form.getFieldValue('sperm_type') == 'Frozen' && 
-                          <Col span={24} style={{ marginTop: "-35px" }}>
+                         (form.getFieldValue('sperm_type') === 'Frozen' && form.getFieldValue('sperm_source') === 'Patient') &&
+                         ( <Col span={12} style={{ marginTop: "-35px" }}>
                             <Form.Item
                                 label={
                                   <span
                                     style={{
                                       display: "inline-block",
-                                      width: "100px",
+                                      width: "80px",
                                       textAlign: "left",
                                     }}
                                   >
-                                    Frozen Date
+                                    Frozen Date:
                                   </span>
                                 }
                                 name="frozen_date"
@@ -4308,183 +4505,204 @@ function FormCom({ patient }) {
                                   position: "relative",
                                   top: "8px",
                                 }}
+                                colon={false}
                               
                               >
                                 {/* <DatePicker  style={inputfiled_style}/> */}
-                                <Input
+                                {/* <Input
                                   style={inputfiled_style}
                                   onClick={() => handleOpenCalendar("frozen_date")}
                                   readOnly
+                                /> */}
+
+                                <DatePicker
+                                  format={{
+                                    format: 'MM/DD/YYYY',
+                                    type: 'mask',
+                                  }}
+                                  onChange={(dateString) => onDateChangeFields('frozen_date',  dateString)}
+                                  style={{ 
+                                    width: '100%', 
+                                    padding: '5px 20px',
+                                    borderRadius: '0px',
+                                    border: "none",
+                                    background: "transparent",
+                                    borderBottom: "1px solid #CACACA",
+                                    outline: "none",
+                                    position: "relative",
+                                    top: "-4px",
+                                    fontWeight: '700',
+                                    fontSize: '12.5px',
+                                    textAlign: 'center',
+                                    
+                                  }}
                                 />
                               </Form.Item>
                             </Col>
+                         )
                       }
-                    
-
-                    
 
 
-                  </Row>
+                          <Col span={24} style={{ marginTop: '-25px'}}>
+                            <Row gutter={10}>
+                                <Col span={10} style={{ marginTop: "0px" }}>
+                                      <Form.Item 
+                                      label={
+                                        <span
+                                          style={{
+                                            
+                                            display: "inline-block",
+                                            width: "55px",
+                                            textAlign: "left",
+                                          }}
+                                        >
+                                          Serology:
+                                        </span>
+                                      }
+                                      name="sperm_serology"
+                                      colon={false}
+                                      initialValue={"N/A"}
+                                      
+                                      >
+                                        <Input
+                                          style={inputfiled_style}
+                                          value={selectedValues.sperm_serology}
+                                          onClick={() => showModal("sperm_serology")}
+                                          readOnly
+                                          placeholder="Select Option"
+                                      
+                                        />
+                                      </Form.Item>
+                                </Col>
+                                {
+                                  form.getFieldValue('sperm_serology') == 'Biohazard' &&
+                                  <Col span={14} style={{ marginTop: "0px" }}>
+                                      <Form.Item 
+                                      label={
+                                        <span
+                                          style={{
+                                            
+                                            display: "inline-block",
+                                            width: "110px",
+                                            textAlign: "left",
+                                          }}
+                                        >
+                                          Serology Positive:
+                                        </span>
+                                      }
+                                      name="sperm_serology_positive"
+                                      colon={false}
+                                      
+                                      >
+                                        <Input
+                                          style={inputfiled_style}
+                                          value={selectedValues.sperm_serology_positive}
+                                          onClick={() => showModal("sperm_serology_positive")}
+                                          readOnly
+                                          placeholder="Select Option"
+                                        />
+                                      </Form.Item>
+                                </Col>
+                                }
+                            </Row>
+                          </Col>
+                           
+
+                            {
+                              form.getFieldValue('sperm_serology_positive') == 'Other' &&
+                              form.getFieldValue('sperm_serology') === 'Biohazard' &&
+                              <Col span={24} style={{ marginTop: "-25px" }}>
+                                  <Form.Item 
+                                  label={
+                                    <span
+                                      style={{
+                                        display: "inline-block",
+                                        width: "100%",
+                                        textAlign: "left",
+                                      }}
+                                    >
+                                      Add a Note:
+                                    </span>
+                                  }
+                                  name="sperm_note"
+                                  layout="horizontal" 
+                                  colon={false}
+                                  >
+                                    {/* <TextArea
+                                      style={{
+                                        ...inputfiled_style_text_box,
+                                        
+                                      }}
+                                    /> */}
+                                    <Input style={inputfiled_style} />
+                                  </Form.Item>
+                            </Col>
+                            }
+                      </Row>
+                    </Col>
+            </Row>
             </div>
           </Col>
-          {/* <Col span={3} className="gutter-row">
-            <div style={innner_con_4}>
-              <Row
-                gutter={10}
-                style={{
-                  marginLeft: "0",
-                  marginRight: "0",
-                  borderRadius: "0px 0px 10px 10px",
-                }}
-              >
-                <Col span={24} style={{ display: 'flex' , width: '100%', justifyContent: 'center'}}>
-                  <Title
-                    level={5}
-                    style={{ marginTop: '0px', marginLeft: "-10px " , display: 'flex' , width: '100%', justifyContent: 'flex-start' ,  color: "#8A62A5", fontWeight: 'bold' }}
-                  >
-                    THAW & FERT
+          {/* 5th col  */}
+          <Col span={4} className="gutter-row">
+            <div style={innner_con}>
+            <Row >
+                <Col span={24} style={headingbackgroundColor}>
+                  <Title level={5} style={{ ...title_s_style_p }} >
+                    Thaw & Fert:
                   </Title>
                 </Col>
-                
-              </Row>
-            </div>
-            <div style={innner_con_5}>
-              <Row gutter={10}>
-                
-                
-                <Col span={24}>
+
+                <Col span={24} style={conBodystyle}>
                   <Row gutter={10}>
-                <Col span={24} style={{ marginTop: "-5px", marginBottom: "12px" }} >
-                  <Title level={5} style={{ ...title_s_style, marginTop: "5px " }}>Thaw ID Check:</Title>
-                </Col>
- 
-                <Col span={24} style={{ ...col_input_spaceing }}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "35px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Date
-                      </span>
-                    }
-                    name="thaw_date_insert"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                   
-                  >
-                    <Input
-                      style={inputfiled_style}
-                      onClick={() => handleOpenCalendar("thaw_date_insert")}
-                      readOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={24} style={{ ...col_input_spaceing }}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "35px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Time
-                      </span>
-                    }
-                    name="thaw_date_time"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input
-                      style={inputfiled_style}
-                      onClick={() => handleOpenTimePicker("thaw_date_time")}
-                      readOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={24} style={{ ...col_input_spaceing }}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "35px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Emb
-                      </span>
-                    }
-                    name="emb"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={24} style={{ ...col_input_spaceing }}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "35px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Obs
-                      </span>
-                    }
-                    name="obs"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-
-                  </Row>
-                </Col>
-              </Row>
-            </div>
-          </Col> */}
-          <Col span={5} className="gutter-row">
-            <div style={innner_con}>
-            <Row gutter={15}>
-
-                    <Col span={24}>
-                      <Title level={5} style={{ ...title_s_style_p }} >
-                        Thaw & Fert:
-                      </Title>
-                    </Col>
                     <Col span={24} style={{...col_input_spaceing, marginTop: '0px'}}>
                       <Form.Item
                         label={
                           <span
                             style={{
                               display: "inline-block",
-                              width: "80px",
+                              width: "70px",
                               textAlign: "left",
                             }}
                           >
-                            Thaw Date
+                            Thaw Date:
                           </span>
                         }
                         name="thaw_date"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                         
                       >
-                        <Input
+                      { /* <Input
                           style={inputfiled_style}
                           onClick={() => handleOpenCalendar("thaw_date")}
                           readOnly
                         />
+                        */}
+
+                      <DatePicker
+                            format={{
+                              format: 'MM/DD/YYYY',
+                              type: 'mask',
+                            }}
+                            onChange={(dateString) => onDateChangeFields('thaw_date',  dateString)}
+                            style={{ 
+                              width: '100%', 
+                              padding: '5px 20px',
+                              borderRadius: '0px',
+                              border: "none",
+                              background: "transparent",
+                              borderBottom: "1px solid #CACACA",
+                              outline: "none",
+                              position: "relative",
+                              top: "-4px",
+                              fontWeight: '700',
+                              fontSize: '12.5px',
+                              textAlign: 'center',
+                              
+                            }}
+                          />
                       </Form.Item>
                     </Col>
                     <Col span={12} style={{ ...col_input_spaceing }}>
@@ -4493,37 +4711,39 @@ function FormCom({ patient }) {
                           <span
                             style={{
                               display: "inline-block",
-                              width: "60px",
+                              width: "52px",
                               textAlign: "left",
                             }}
                           >
-                            Thawed
+                            Thawed:
                           </span>
                         }
                         name="total_thawed_eggs"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
                     </Col>
-                    
                     <Col span={12} style={{ ...col_input_spaceing }}>
                       <Form.Item
                         label={
                           <span
                             style={{
                               display: "inline-block",
-                              width: "60px",
+                              width: "52px",
                               textAlign: "left",
+                            
                             }}
                           >
-                            Survived
+                            Survived:
                           </span>
                         }
                         name="survived"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -4534,19 +4754,20 @@ function FormCom({ patient }) {
                           <span
                             style={{
                               display: "inline-block",
-                              width: "35px",
+                              width: "30px",
                               textAlign: "left",
                               fontWeight: "bold",
                               margin: "0",
                               padding: "0",
                             }}
                           >
-                            #MII
+                            #MII:
                           </span>
                         }
                         name="mii"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -4557,41 +4778,18 @@ function FormCom({ patient }) {
                           <span
                             style={{
                               display: "inline-block",
-                              width: "35px",
+                              width: "30px",
                               fontWeight: "bold",
                               textAlign: "left",
                             }}
                           >
-                            ICSI
+                            ICSI:
                           </span>
                         }
                         name="icsi"
                         validateTrigger="onBlur"
                         layout="horizontal"
-                      >
-                        <Input style={inputfiled_style} />
-                      </Form.Item>
-                    </Col>
-                    
-                    <Col span={12} style={{ ...col_input_spaceing }}>
-                      <Form.Item
-                        label={
-                          <span
-                            style={{
-                              display: "inline-block",
-                              width: "35px",
-                              textAlign: "left",
-                              fontWeight: "bold",
-                              margin: "0",
-                              padding: "0",
-                            }}
-                          >
-                            1PN
-                          </span>
-                        }
-                        name="one_pn"
-                        validateTrigger="onBlur"
-                        layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -4602,282 +4800,461 @@ function FormCom({ patient }) {
                           <span
                             style={{
                               display: "inline-block",
-                              width: "35px",
+                              width: "30px",
                               textAlign: "left",
                               fontWeight: "bold",
                               margin: "0",
                               padding: "0",
                             }}
                           >
-                            2PN
+                            2PN:
                           </span>
                         }
                         name="two_pn"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
-                    </Col>   
+                    </Col>
+                    <Col span={12} style={{ ...col_input_spaceing }}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "30px",
+                              textAlign: "left",
+                              fontWeight: "bold",
+                              margin: "0",
+                              padding: "0",
+                            }}
+                          >
+                            1PN:
+                          </span>
+                        }
+                        name="one_pn"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Col>
             </Row>
             </div>
           </Col>
         </Row>
 
         {/* 2nd row  */}
-        <Row
-          gutter={8}
-          className="first-main-con"
-          style={{ marginTop: "10px" }}
-        >
+        <Row gutter={8} className="first-main-con" style={{ marginTop: "10px" }} >
           {/* 1st col  */}
           <Col span={3} className="gutter-row">
             <div style={innner_con_3_row_2}>
               <Row>
-                <Col span={24} style={{ marginTop: "-5px" }}>
+                <Col span={24} style={{ marginTop: "5px" }}>
                   <Form.Item name="bx_check_box">
-                    <Radio.Group style={{ width: "150px" }}>
+                    <Radio.Group onChange={handleBxChange} value={selectedBxOption} style={{ width: "100%" , display: 'flex', flexWrap: 'wrap',  justifyContent: 'flex-start' , gap: '10px 10px' }}>
                       <Radio value="BX ALL" style={{ fontWeight: 'bold'}}>BX ALL</Radio>
                       <Radio value="BX up to" style={{ fontWeight: 'bold'}}>BX up to</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col span={24} style={{ marginTop: "-20px" }}>
-                  <Form.Item
-                    name="bx_up_to"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={24} style={{ marginTop: "-40px" }}>
-                  <Title
-                    level={5}
-                    style={{ fontWeight: "400", fontSize: "14px" }}
-                  >
-                    & Cryo remaining embroyos w/o biopsy
-                  </Title>
-                </Col>
-                <Col span={24} style={{ marginTop: "0px" }}>
-                  <Form.Item name="bx_yes_no">
-                    <Input
-                      style={inputfiled_style}
-                      value={selectedValues.bx_yes_no}
-                      onClick={() => showModal("bx_yes_no")}
-                      readOnly
-                      placeholder="Select Option"
-                    />
-                  </Form.Item>
-                </Col>
+                {selectedBxOption === "BX up to" && (
+                <>
+                  <Col span={24} style={{ marginTop: "-10px" }}>
+                    <Form.Item
+                      name="bx_up_to"
+                      validateTrigger="onBlur"
+                      layout="horizontal"
+                    >
+                      <Input style={inputfiled_style} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={24} style={{ marginTop: "-40px" }}>
+                    <Title
+                      level={5}
+                      style={{ fontWeight: "400", fontSize: "14px" }}
+                    >
+                      & Cryo remaining embroyos w/o biopsy
+                    </Title>
+                  </Col>
+                  <Col span={24} style={{ marginTop: "0px" }}>
+                    <Form.Item name="bx_yes_no">
+                    <Radio.Group className="radio-button-bx-yes-no" style={{ width: "100%" , display: 'flex', flexWrap: 'wrap',  justifyContent: 'space-around' , gap: '0px 10px' }}>
+                        <Radio value="Yes" style={{ fontWeight: 'bold'}}>Yes</Radio>
+                        <Radio value="No" style={{ fontWeight: 'bold'}}>No</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                  </Col>
+                </>
+
+                )}
               </Row>
             </div>
           </Col>
 
-          {/* 2rd col  */}
-          <Col span={6} className="gutter-row">
-            <div style={innner_con_3_row_2}>
-              <Row gutter={10} >
-                <Col span={24}>
-                  <Title level={5} style={{ ...title_s_style }}>
+          {/* 2nd col  */}
+          <Col span={7} className="gutter-row">
+            <div style={innner_con_new_2}>
+              <Row >
+                <Col span={24} style={headingbackgroundColor}>
+                  <Title level={5} style={{ ...title_s_style_p }}>
                     PGS / PGD:
                   </Title>
                 </Col>
 
-                <Col span={13} style={col_input_top_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "62px",
-                          textAlign: "left",
-                        }}
+                <Col span={24} style={conBodystyle}>
+                  <Row gutter={10}> 
+                    <Col span={13} style={{ marginTop: '5px' }}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "62px",
+                              textAlign: "left",
+                            }}
+                          >
+                            PGD Lab:
+                          </span>
+                        }
+                        name="pgd_lab"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
                       >
-                        PGD Lab
-                      </span>
-                    }
-                    name="pgd_lab"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} style={col_input_top_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "65px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
+                        <Input
+                          style={inputfiled_style}
+                          value={selectedValues.pgd_lab}
+                          onClick={() => showModal("pgd_lab")}
+                          readOnly
+                          placeholder="Select Option"
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={11} style={{ marginTop: '5px' }}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "28px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Test:
+                          </span>
+                        }
+                        name="pgs_test"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
                       >
-                        Day 5 Bx
-                      </span>
-                    }
-                    name="day_5_bx"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
+                        <Input
+                          style={inputfiled_style}
+                          value={selectedValues.pgs_test}
+                          onClick={() => showModal("pgs_test")}
+                          readOnly
+                          placeholder="Select Option"
+                        />
+                      </Form.Item>
+                    </Col>
 
-                <Col span={13} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "62px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Test
-                      </span>
+                    {
+                      form.getFieldValue('pgd_lab') == 'Other' &&
+                      <Col span={24} style={{ marginTop: "-30px" }}>
+                            <Form.Item 
+                            label={
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  width: "75px",
+                                  textAlign: "left",
+                                }}
+                              >
+                                Add a Note:
+                              </span>
+                            }
+                            name="pgs_note"
+                            layout="horizontal" 
+                            colon={false}
+                            >
+                              
+                              <Input style={inputfiled_style}/>
+                            </Form.Item>
+                      </Col>
                     }
-                    name="pgs_test"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "65px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Day 6 Bx
-                      </span>
-                    }
-                    name="day_6_bx"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
 
-                <Col span={13} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "62px",
-                          textAlign: "left",
-                        }}
-                      >
-                        Bx Emb
-                      </span>
-                    }
-                    name="pgs_bx_emb"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                    onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_emb')}
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "65px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Day 7 Bx
-                      </span>
-                    }
-                    name="day_7_bx"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
 
-                  <Col span={13} style={col_input_spaceing}>
-                    <Form.Item
-                      label={
-                        <span
-                          style={{
-                            display: "inline-block",
-                            width: "62px",
-                            textAlign: "left",
-                          }}
+
+                    <Col span={9} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "58px",
+                              textAlign: "left",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Day 5 Bx:
+                          </span>
+                        }
+                        name="day_5_bx"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={9} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "50px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Bx Emb:
+                          </span>
+                        }
+                        name="day_5_bx_emb"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                        onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_emb')}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={6} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "22px",
+                                textAlign: "left",
+                              }}
+                            >
+                              Obs:
+                            </span>
+                          }
+                          name="day_5_bx_obs"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                          onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_obs')}
                         >
-                          Obs
-                        </span>
-                      }
-                      name="pgs_obs"
-                      validateTrigger="onBlur"
-                      layout="horizontal"
-                      onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_obs')}
-                    >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "65px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+
+
+                    <Col span={9} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "58px",
+                              textAlign: "left",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Day 6 Bx:
+                          </span>
+                        }
+                        name="day_6_bx"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
                       >
-                        Total Bx
-                      </span>
-                    }
-                    name="pgs_total_bx"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={9} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "50px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Bx Emb:
+                          </span>
+                        }
+                        name="day_6_bx_emb"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                        onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_emb')}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={6} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "22px",
+                                textAlign: "left",
+                              }}
+                            >
+                              Obs:
+                            </span>
+                          }
+                          name="day_6_bx_obs"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                          onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_obs')}
+                        >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+
+
+                    <Col span={9} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "58px",
+                              textAlign: "left",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Day 7 Bx:
+                          </span>
+                        }
+                        name="day_7_bx"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={9} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "50px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Bx Emb:
+                          </span>
+                        }
+                        name="day_7_bx_emb"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                        onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_emb')}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={6} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "22px",
+                                textAlign: "left",
+                              }}
+                            >
+                              Obs:
+                            </span>
+                          }
+                          name="day_7_bx_obs"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                          onChange={(e) => handleInputChangeandSetvalue(e, 'icsi_obs')}
+                        >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                    
+                    <Col span={24} style={col_input_spaceing}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "58px",
+                              textAlign: "left",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Total Bx:
+                          </span>
+                        }
+                        name="pgs_total_bx"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </Col>
+
+                
               </Row>
             </div>
           </Col>
 
-          {/* 3r  d col  */}
-          <Col span={4} className="gutter-row">
-            <div style={innner_con_3_row_2}>
-                  <Row gutter={10}>
-                    <Col span={24}>
-                      <Title level={5} style={{ ...title_s_style }}>
+          {/* 3rd col  */}
+          <Col span={3} className="gutter-row">
+            <div style={innner_con_new_2}>
+                  <Row >
+
+                    <Col span={24} style={headingbackgroundColor}>
+                      <Title level={5} style={{ ...title_s_style_p }}>
                         Sperm Prep:
                       </Title>
                     </Col>
-                    <Col span={24} style={{ marginTop: "-5px" }}>
+
+                    <Col span={24} style={conBodystyle}>
+                      <Row>
+                      <Col span={24} style={{ marginTop: '5px' }}>
                       <Form.Item name="sperm_prep">
-                        <Radio.Group className="radio-button-sperm-prep" style={{ width: "100%" , display: 'flex', flexWrap: 'wrap',  justifyContent: 'flex-start' , gap: '5px 4rem' }}>
+                        {/* <Radio.Group className="radio-button-sperm-prep" style={{ width: "100%" , display: 'flex', flexWrap: 'wrap',  justifyContent: 'flex-start' , gap: '5px 4rem' }}>
                           <Radio value="Wash" style={{ minWidth: '104px' , fontWeight: 'bold' }}>Wash</Radio>
                           <Radio value="Gradient" style={{ minWidth: '104px'  , fontWeight: 'bold'}}>Gradient</Radio>
                           <Radio value="Swim up" style={{ minWidth: '104px'  , fontWeight: 'bold' }}>Swim up</Radio>
                           <Radio value="TESE prep" style={{ minWidth: '104px'  , fontWeight: 'bold' }}>TESE prep</Radio>
-                        </Radio.Group>
+                        </Radio.Group> */}
+                        <Input
+                          style={inputfiled_style}
+                          value={selectedValues.sperm_prep}
+                          onClick={() => showModal("sperm_prep")}
+                          readOnly
+                          placeholder="Select Option"
+                        />
                       </Form.Item>
                     </Col>
-
-                    <Col span={24} className="spermprem-tabview" style={{ marginTop: "-15px" }}>
+                    <Col span={24} className="spermprem-tabview" style={col_input_spaceing}>
                       <Form.Item
                         label={
                           <span
@@ -4887,17 +5264,18 @@ function FormCom({ patient }) {
                               textAlign: "left",
                             }}
                           >
-                            By
+                            By:
                           </span>
                         }
                         name="sperm_prep_by"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
                     </Col>
-                    <Col span={24} style={col_input_spaceing_2}>
+                    <Col span={24} style={col_input_spaceing}>
                       <Form.Item
                         label={
                           <span
@@ -4907,12 +5285,13 @@ function FormCom({ patient }) {
                               textAlign: "left",
                             }}
                           >
-                            Time
+                            Time:
                           </span>
                         }
                         name="sperm_prep_time"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input
                           style={inputfiled_style}
@@ -4923,11 +5302,16 @@ function FormCom({ patient }) {
                         />
                       </Form.Item>
                     </Col>
+                      </Row>
+                    </Col>
+
+
+                    
                   </Row>
             </div>
           </Col>
        
-          {/* 4r  d col  */}
+          {/* 4th col  */}
           <Col span={11} className="gutter-row">
             <div style={innner_con_3_row_2}>
 
@@ -5031,7 +5415,7 @@ function FormCom({ patient }) {
 
                         <Col span={24} style={{ marginTop: "-25px" }}>
                           <Form.Item name="fs_progressive">
-                            <Radio.Group className="ration-button-sperm-details" style={{ width: "100%", display: 'flex', justifyContent: 'flex-start', gap: '30px' }}>
+                            <Radio.Group className="ration-button-sperm-details" style={{ width: "100%", display: 'flex', justifyContent: 'flex-start', gap: '10px' }}>
                               <Radio value="PR" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>PR</span></Radio>
                               <Radio value="NP" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>NP</span></Radio>
                               <Radio value="IM" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>IM</span></Radio>
@@ -5114,7 +5498,7 @@ function FormCom({ patient }) {
 
                         <Col span={24} style={{ marginTop: "-25px" }}>
                           <Form.Item name="at_progressive">
-                            <Radio.Group className="ration-button-sperm-details" style={{ width: "100%", display: 'flex', justifyContent: 'flex-start', gap: '30px' }}>
+                            <Radio.Group className="ration-button-sperm-details" style={{ width: "100%", display: 'flex', justifyContent: 'flex-start', gap: '10px' }}>
                               <Radio value="PR" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>PR</span></Radio>
                               <Radio value="NP" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>NP</span></Radio>
                               <Radio value="IM" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>IM</span></Radio>
@@ -5198,7 +5582,7 @@ function FormCom({ patient }) {
 
                         <Col span={24} style={{ marginTop: "-25px" }}>
                           <Form.Item name="f_progressive">
-                            <Radio.Group className="ration-button-sperm-details" style={{ width: "100%", display: 'flex', justifyContent: 'flex-start', gap: '30px' }}>
+                            <Radio.Group className="ration-button-sperm-details" style={{ width: "100%", display: 'flex', justifyContent: 'flex-start', gap: '10px' }}>
                               <Radio value="PR" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>PR</span></Radio>
                               <Radio value="NP" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>NP</span></Radio>
                               <Radio value="IM" style={{ minWidth: '39px'  }}><span style={{ marginLeft: '-5px'}}>IM</span></Radio>
@@ -5220,177 +5604,233 @@ function FormCom({ patient }) {
         >
           {/* 1st col  */}
           <Col span={10} className="gutter-row">
-            <div style={innner_con_3_row_3}>
-              <Row gutter={10}>
-                <Col span={24} style={{ marginBottom: '3px'}}>
-                  <Title level={5} style={{...title_s_style,marginTop: "5px"}}>
+            <div style={innner_con_new_3}>
+              <Row >
+                <Col span={24} style={headingbackgroundColor}>
+                  <Title level={5} style={{...title_s_style_p}}>
                     Cryopreservation:
                   </Title>
                 </Col>
                 
-                <Col span={14} style={{ marginTop: "-18px" }}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "110px",
-                          textAlign: "left",
-                        }}
+
+
+                <Col span={24} style={conBodystyle}>
+                  <Row gutter={10}>
+                      <Col span={14} style={{ marginTop: '2px' }}>
+                      <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "110px",
+                              textAlign: "left",
+                            }}
+                          >
+                            Consent Date:
+                          </span>
+                        }
+                        name="consent_date"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
                       >
-                        Consent Date:
-                      </span>
-                    }
-                    name="consent_date"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input
-                      style={inputfiled_style}
-                      onClick={() => handleOpenCalendar("consent_date")}
-                      readOnly
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={10} style={{
-                    marginTop: "-20px",
-                    
-                  }}>
-                  <Form.Item name="cryo_status">
-                    <Radio.Group style={{ width: "100%", justifyContent: "space-evenly",  display: "flex", gap: '20px'}}>
-                      <Radio value="Accept" style={{ fontWeight: 'bold'}}>Accept</Radio>
-                      <Radio value="Decline" style={{ fontWeight: 'bold'}}>Decline</Radio>
-                    </Radio.Group>
-                  </Form.Item>
+                        {/* <Input
+                          style={inputfiled_style}
+                          onClick={() => handleOpenCalendar("consent_date")}
+                          readOnly
+                        /> */}
+
+                            <DatePicker
+                                format={{
+                                  format: 'MM/DD/YYYY',
+                                  type: 'mask',
+                                }}
+                                onChange={(dateString) => onDateChangeFields('consent_date',  dateString)}
+                                style={{ 
+                                  width: '100%', 
+                                  padding: '5px 20px',
+                                  borderRadius: '0px',
+                                  border: "none",
+                                  background: "transparent",
+                                  borderBottom: "1px solid #CACACA",
+                                  outline: "none",
+                                  position: "relative",
+                                  top: "-6px",
+                                  fontWeight: '700',
+                                  fontSize: '12.5px',
+                                  textAlign: 'center',
+                                  
+                                }}
+                              />
+                      </Form.Item>
+                      </Col>
+                      <Col span={10} style={{ marginTop: '2px' }}>
+                        <Form.Item name="cryo_status">
+                          <Radio.Group style={{ width: "100%", justifyContent: "space-evenly",  display: "flex", gap: '20px'}}>
+                            <Radio value="Accept" style={{ fontWeight: 'bold'}}>Accept</Radio>
+                            <Radio value="Decline" style={{ fontWeight: 'bold'}}>Decline</Radio>
+                          </Radio.Group>
+                        </Form.Item>
+                      </Col>
+
+                      <Col span={24} style={col_input_spaceing}>
+                        <Title level={5} style={{...title_s_style_p}}>
+                          Cell Stage:
+                        </Title>
+                      </Col>
+
+
+
+                      <Col span={8} style={{ marginTop: '-5px'}}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "50px",
+                                textAlign: "left",
+                                fontWeight: "bold",
+                              }}
+                            >
+                            Others:
+                            </span>
+                          }
+                          name="cell_stage"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                        >
+                                <Input
+                                    style={inputfiled_style}
+                                    value={selectedValues.cell_stage}
+                                    onClick={() => showModal("cell_stage")}
+                                    readOnly
+                                    placeholder="Select Option"
+                                  />
+                        </Form.Item>
+                      </Col>
+                      <Col span={8} style={{ marginTop: '-5px'}}>
+                      {
+                        form.getFieldValue('cell_stage') != '' &&
+                        <Form.Item
+                        label={
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "80px",
+                              textAlign: "left",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Enter Value:
+                          </span>
+                        }
+                        name="others_value"
+                        validateTrigger="onBlur"
+                        layout="horizontal"
+                        colon={false}
+                      >
+                        <Input style={inputfiled_style} />
+                      </Form.Item>
+                      }
+                        
+                      </Col>
+                     
+                     
+                      <Col span={8} style={{ marginTop: '-5px'}}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "40px",
+                                textAlign: "left",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Total:
+                            </span>
+                          }
+                          name="cryo_total"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                        >
+                          <Input style={inputfiled_style} />
+                        </Form.Item>
+                      </Col>
+                      <Col span={8} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "25px",
+                                textAlign: "left",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              D5:
+                            </span>
+                          }
+                          name="cryo_d5"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                        >
+                          <Input style={inputfiled_style} />
+                        </Form.Item>
+                      </Col>
+                      <Col span={8} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "25px",
+                                textAlign: "left",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              D6:
+                            </span>
+                          }
+                          name="cryo_d6"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                        >
+                          <Input style={inputfiled_style} />
+                        </Form.Item>
+                      </Col>
+                      <Col span={8} style={col_input_spaceing}>
+                        <Form.Item
+                          label={
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "25px",
+                                textAlign: "left",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              D7:
+                            </span>
+                          }
+                          name="cryo_d7"
+                          validateTrigger="onBlur"
+                          layout="horizontal"
+                          colon={false}
+                        >
+                          <Input style={inputfiled_style} />
+                        </Form.Item>
+                      </Col>
+                  </Row>
                 </Col>
 
-                <Col span={8} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "110px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                       Cell Stage 2PN
-                      </span>
-                    }
-                    name="cryo_two_pn"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={8} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "25px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        D3
-                      </span>
-                    }
-                    name="cryo_d3"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={8} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "25px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        D5
-                      </span>
-                    }
-                    name="cryo_d5"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={8} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "110px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Total
-                      </span>
-                    }
-                    name="cryo_total"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
+
                 
-                <Col span={8} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "25px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        D6
-                      </span>
-                    }
-                    name="cryo_d6"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
-                <Col span={8} style={col_input_spaceing}>
-                  <Form.Item
-                    label={
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "25px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        D7
-                      </span>
-                    }
-                    name="cryo_d7"
-                    validateTrigger="onBlur"
-                    layout="horizontal"
-                  >
-                    <Input style={inputfiled_style} />
-                  </Form.Item>
-                </Col>
+                
                 
               </Row>
             </div>
@@ -5430,12 +5870,13 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        #ET
+                        #ET:
                       </span>
                     }
                     name="et"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5451,12 +5892,13 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        #ET MD
+                        #ET MD:
                       </span>
                     }
                     name="et_md"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5472,12 +5914,13 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        Catheter
+                        Catheter:
                       </span>
                     }
                     name="et_catheter"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5514,9 +5957,7 @@ function FormCom({ patient }) {
             </div>
           </Col>
 
-        
-
-          {/* 4th col  */}
+          {/* 3rd col  */}
           <Col span={5} className="gutter-row">
             <div style={innner_con_3_row_3}>
               <Row gutter={10}>
@@ -5536,20 +5977,44 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        Date
+                        Date:
                       </span>
                     }
                     name="emb_date"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                     
                   >
                     {/* <DatePicker  style={inputfiled_style}/> */}
-                    <Input
+                    {/* <Input
                       style={inputfiled_style}
                       onClick={() => handleOpenCalendar("emb_date")}
                       readOnly
-                    />
+                    /> */}
+
+                      <DatePicker
+                        format={{
+                          format: 'MM/DD/YYYY',
+                          type: 'mask',
+                        }}
+                        onChange={(dateString) => onDateChangeFields('emb_date',  dateString)}
+                        style={{ 
+                          width: '100%', 
+                          padding: '5px 20px',
+                          borderRadius: '0px',
+                          border: "none",
+                          background: "transparent",
+                          borderBottom: "1px solid #CACACA",
+                          outline: "none",
+                          position: "relative",
+                          top: "-4px",
+                          fontWeight: '700',
+                          fontSize: '12.5px',
+                          textAlign: 'center',
+                          
+                        }}
+                      />
                   </Form.Item>
                 </Col>
                 <Col span={24} style={{ ...col_input_top_spaceing, marginTop: '-20px' }}>
@@ -5563,12 +6028,13 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        Time
+                        Time:
                       </span>
                     }
                     name="emb_time"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -5588,12 +6054,13 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        Emb
+                        Emb:
                       </span>
                     }
                     name="emb_emb"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5609,12 +6076,13 @@ function FormCom({ patient }) {
                           fontWeight: "bold",
                         }}
                       >
-                        Obs
+                        Obs:
                       </span>
                     }
                     name="emb_obs"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5656,12 +6124,13 @@ function FormCom({ patient }) {
                               fontWeight: "bold",
                             }}
                           >
-                            Emb
+                            Emb:
                           </span>
                         }
                         name="icsi_emb"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -5677,12 +6146,13 @@ function FormCom({ patient }) {
                               fontWeight: "bold",
                             }}
                           >
-                            Obs
+                            Obs:
                           </span>
                         }
                         name="icsi_obs"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -5698,13 +6168,13 @@ function FormCom({ patient }) {
                               fontWeight: "bold",
                             }}
                           >
-                            Date
+                            Date:
                           </span>
                         }
                         name="icsi_date"
                         validateTrigger="onBlur"
                         layout="horizontal"
-                       
+                        colon={false}
                       >
                         {/* <DatePicker  style={inputfiled_style}/> */}
                         <Input
@@ -5725,12 +6195,13 @@ function FormCom({ patient }) {
                               fontWeight: "bold",
                             }}
                           >
-                            Time
+                            Time:
                           </span>
                         }
                         name="icsi_time"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input
                           style={inputfiled_style}
@@ -5750,12 +6221,13 @@ function FormCom({ patient }) {
                               fontWeight: "bold",
                             }}
                           >
-                            Insemination Sperm #
+                            Insemination Sperm #:
                           </span>
                         }
                         name="insemination_sperm"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -5771,12 +6243,13 @@ function FormCom({ patient }) {
                               fontWeight: "bold",
                             }}
                           >
-                            Medium Volume #
+                            Medium Volume #:
                           </span>
                         }
                         name="medium_volume"
                         validateTrigger="onBlur"
                         layout="horizontal"
+                        colon={false}
                       >
                         <Input style={inputfiled_style} />
                       </Form.Item>
@@ -5840,13 +6313,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Egg frozen date
+                        Egg frozen date:
                       </span>
                     }
                     name="egg_frozen_date"
                     validateTrigger="onBlur"
                     layout="horizontal"
-                   
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -5870,6 +6343,7 @@ function FormCom({ patient }) {
                     name="egg_frozen_by"
                     validateTrigger="onBlur"
                     layout="vertical"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5884,12 +6358,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Date
+                        Date:
                       </span>
                     }
                     name="thaw_date_insert"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                    
                   >
                     <Input
@@ -5909,12 +6384,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Time
+                        Time:
                       </span>
                     }
                     name="thaw_date_time"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -5933,12 +6409,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Emb
+                        Emb:
                       </span>
                     }
                     name="thaw_emb"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5953,12 +6430,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Obs
+                        Obs:
                       </span>
                     }
                     name="obs"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -5982,13 +6460,14 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Thaw Medium
+                        Thaw Medium:
                       </span>
                     }
                     name="thaw_medium"
                     validateTrigger="onBlur"
                     layout="horizontal"
                     initialValue={"Kitazato"}
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6003,12 +6482,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Lot
+                        Lot:
                       </span>
                     }
                     name="lot"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6023,13 +6503,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Exp Date
+                        Exp Date:
                       </span>
                     }
                     name="exp_date"
                     validateTrigger="onBlur"
                     layout="horizontal"
-                    
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -6057,6 +6537,7 @@ function FormCom({ patient }) {
                     name="comment"
                     validateTrigger="onBlur"
                     layout="vertical"
+                    colon={false}
                   >
                     <TextArea
                       style={{
@@ -6097,12 +6578,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                       D1 Medium Change  Initial
+                       D1 Medium Change Initial:
                       </span>
                     }
                     name="d1_medium_change_initial"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6125,12 +6607,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                      D3 Medium Change  Initial
+                      D3/D4 Medium Change Initial:
                       </span>
                     }
                     name="d3_medium_change_initial"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6155,12 +6638,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                      Worksheet Final Checking  Initial
+                      Worksheet Final Checking Initial:
                       </span>
                     }
                     name="worksheet_final_checking_initial"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6183,12 +6667,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                      Scan  Initial
+                      Scan Initial:
                       </span>
                     }
                     name="scan_initial"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6218,12 +6703,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Sperm Disc By
+                        Sperm Disc By:
                       </span>
                     }
                     name="sperm_disc_by"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6238,13 +6724,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Date
+                        Date:
                       </span>
                     }
                     name="sperm_disc_by_date"
                     validateTrigger="onBlur"
                     layout="horizontal"
-                    
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -6263,12 +6749,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Time
+                        Time:
                       </span>
                     }
                     name="sperm_disc_by_time"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -6288,12 +6775,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Oocyte Disc By
+                        Oocyte Disc By:
                       </span>
                     }
                     name="oocyte_disc_by"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6308,13 +6796,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Date
+                        Date:
                       </span>
                     }
                     name="oocyte_disc_by_date"
                     validateTrigger="onBlur"
                     layout="horizontal"
-                   
+                    colon={false}
                   >
                     {/* <DatePicker  style={inputfiled_style}/> */}
                     <Input
@@ -6334,12 +6822,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Time
+                        Time:
                       </span>
                     }
                     name="oocyte_disc_by_time"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -6361,12 +6850,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Embryo Disc By
+                        Embryo Disc By:
                       </span>
                     }
                     name="embryo_disc_by"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6381,13 +6871,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Date
+                        Date:
                       </span>
                     }
                     name="embryo_disc_by_date"
                     validateTrigger="onBlur"
                     layout="horizontal"
-
+                    colon={false}
                   >
                     {/* <DatePicker  style={inputfiled_style}/> */}
                     <Input
@@ -6407,12 +6897,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Time
+                        Time:
                       </span>
                     }
                     name="embryo_disc_by_time"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input
                       style={inputfiled_style}
@@ -6434,12 +6925,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        Dish Prep By
+                        Dish Prep By:
                       </span>
                     }
                     name="dish_prep_by"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6454,12 +6946,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        D1
+                        D1:
                       </span>
                     }
                     name="dish_prep_by_d1"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     {/* <DatePicker  style={inputfiled_style}/> */}
                     <Input style={inputfiled_style} />
@@ -6475,12 +6968,13 @@ function FormCom({ patient }) {
                           textAlign: "left",
                         }}
                       >
-                        D3/4
+                        D3/4:
                       </span>
                     }
                     name="dish_prep_by_d3/4"
                     validateTrigger="onBlur"
                     layout="horizontal"
+                    colon={false}
                   >
                     <Input style={inputfiled_style} />
                   </Form.Item>
@@ -6557,7 +7051,7 @@ function FormCom({ patient }) {
             }}
             onClick={handleSubmit}
           >
-            <span style={{ fontSize: "18px" }}>Submit</span>
+            <span style={{ fontSize: "18px" }}>Save</span>
           </Button>
         </Col>
       </Row>
@@ -6679,27 +7173,45 @@ function FormCom({ patient }) {
           <Modal
             centered
             title={
-              <Title level={5} style={{ color: "#8a62a5", margin: 0 }}>
-                Select {modalTitle}
+              <Title level={5} style={{ color: "#8a62a5", margin: 0 , fontSize: '25px'}}>
+                {modalTitle}
               </Title>
             }
             visible={isModalVisible}
             onCancel={() => setIsModalVisible(false)}
             footer={null}
-          >
-            <Select
-              style={{ width: "100%" }}
-              onChange={handleSelectChange}
-              value={selectedValues[currentField]}
-              allowClear
-            >
-              {fieldOptions[currentField]?.map((option) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
+            width={600}
+            className='selectoptionmodal'
             
-            </Select>
+           
+          >
+
+            <Row gutter={[15, 10]} style={{   padding: '60px 40px 50px 40px'  }}>
+
+              <Col span={24}>
+                <Title level={5} style={{ color: "rgb(0 0 0 / 49%)", margin: 0 , fontSize: '18px' , }}>
+                  Choose an option
+                </Title>
+              </Col>
+              <Col span={24}>
+
+                  <Select
+                  style={{ width: "100%" }}
+                  onChange={handleSelectChange}
+                  value={selectedValues[currentField]}
+                  allowClear
+                >
+                  {fieldOptions[currentField]?.map((option) => (
+                    <Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Option>
+                  ))}
+                
+                </Select>
+              </Col>
+            </Row>
+
+            
           </Modal>
           
       </ConfigProvider>

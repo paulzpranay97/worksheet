@@ -42,8 +42,6 @@ function SearchPatient({ onPatientSelect }) {
 
   const handlePatientSelect = async (patient) => {
     setSelectedPatient(patient);
-
-    // Check if the sales data for the selected patient is already fetched
     if (!salesData[patient.id]) {
       try {
         const response = await axios.get(base_url, {

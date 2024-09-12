@@ -36,3 +36,114 @@ label{
     box-shadow: none !important; 
 }
 
+
+.no-bottom-border > td {
+    border-bottom: none !important;
+}
+
+
+
+tr[data-row-key="4"] > td,
+tr[data-row-key="5"] > td,
+tr[data-row-key="7"] > td,
+tr[data-row-key="8"] > td,
+tr[data-row-key="9"] > td,
+tr[data-row-key="10"] > td,
+tr[data-row-key="11"] > td,
+tr[data-row-key="12"] > td,
+tr[data-row-key="13"] > td,
+tr[data-row-key="14"] > td {
+    border-bottom: none !important;
+}
+
+tr[data-row-key="15"] > td,
+tr[data-row-key="6"] > td,
+tr[data-row-key="9"] > td,
+tr[data-row-key="11"] > td,
+tr[data-row-key="13"] > td {
+    border-top: 1px solid #d1d1d1 !important;
+}
+
+
+.dataTablecellEmb {
+    /* Your desired styles for emb cells */
+    background-color: #f0f0f0;
+    border-bottom: none;
+}
+
+.dataTablecellDate {
+    /* Your desired styles for date cells */
+    color: #007bff;
+    border-bottom: none;
+}
+
+.dataTablecellTime {
+    /* Your desired styles for time cells */
+    font-weight: bold;
+    border-bottom: none;
+}
+
+
+.main-title{
+    margin-left: -150px!important;
+}
+
+.custom-select .ant-select-item-option-selected {
+    background-color: #8a62a5 !important; /* Brand color for selected option */
+    color: white !important; /* Make the text color white */
+  }
+  
+  /* Customize hover effect */
+  .custom-select .ant-select-item-option-active {
+    background-color: #d8bdf2 !important; /* Light variation of brand color */
+    color: white !important;
+  }
+
+  .ant-picker-input input{
+
+    font-size: 11px !important;
+    font-weight: bold !important;
+    padding: 0px 0px 0px 0px!important;
+    margin-left: -5px !important;
+}
+
+:where(.css-dev-only-do-not-override-d2lrxs).ant-picker-outlined:focus-within {
+    box-shadow: none;
+}
+
+.select-option-modal{
+    height: 400px !important;
+}
+.selectoptionmodal .ant-modal-content {
+    height: 35vh !important;
+}
+
+@media (max-width: 1366px) {
+    
+    .radio-button-sperm-prep{
+        gap: 0px 0rem !important; 
+    }
+    .radio-butoon-sperm-sorce{
+        gap: 30px !important; 
+    }
+    .radio-button-oocyte-source{
+        gap: 25px !important; 
+    }
+    .ration-button-sperm-details{
+        gap: 0px !important; 
+    }
+    .radio-emb-retain{
+        margin-left: -23px !important;
+    }
+    .title-semen{
+        left: -7.3rem !important;
+    }
+    .main-title{
+        margin-left: 0!important;
+    }
+    .spermprem-tabview{
+        margin-top: -28px !important;
+    }
+
+}
+
